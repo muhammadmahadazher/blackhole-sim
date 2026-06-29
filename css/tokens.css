@@ -1,0 +1,103 @@
+/* ===========================================================================
+   tokens.css  —  Design system (Material 3 structure × Apple HIG feel)
+   A token-first system: every colour, size, radius, and motion value lives
+   here as a CSS custom property. Dark, premium, WCAG-AA scientific dashboard.
+   (Synthesised from m3.material.io, Apple HIG, and colour-theory research.)
+   =========================================================================== */
+:root {
+    /* ---- Neutral surface ramp (tone-based depth, not heavy shadow) ---- */
+    --bg: #0B0E14;                       /* page, behind the render */
+    --surface-dim: #0E1219;             /* inset plot wells */
+    --surface: #11151C;
+    --surface-container: #161B24;       /* base panels */
+    --surface-container-high: #1C222D;  /* raised cards / modals */
+    --surface-container-highest: #232B38;/* popovers / menus / tooltips */
+    --outline: #3A4250;                 /* subtle dividers (decorative) */
+    --outline-strong: #5A6678;          /* UI borders, focus rings (AA 3:1) */
+
+    /* ---- Text / on-surface tones (4-level hierarchy) ---- */
+    --text: #E6EAF2;                    /* primary (16:1) */
+    --text-secondary: #9AA4B2;          /* secondary body (7.7:1) */
+    --text-tertiary: #8994A6;           /* captions (≈4.7:1 on surfaces, AA) */
+    --text-quaternary: rgba(230,234,242,0.30);
+    --ink: #06080C;                     /* dark text ON accent fills */
+
+    /* ---- Section accents (one colourblind-safe accent per section) ---- */
+    --acc-accretion: #F5A623;  --acc-accretion-c: #3A2A0E;  --acc-accretion-on: #FFCB6B;
+    --acc-relativity: #4FB0F5; --acc-relativity-c: #0C2438; --acc-relativity-on: #A9D8FB;
+    --acc-spacetime: #9A8CFF;  --acc-spacetime-c: #1E1A3A;  --acc-spacetime-on: #CFC8FF;
+    --acc-thermo: #F25D8E;     --acc-thermo-c: #3A1322;     --acc-thermo-on: #FBA9C4;
+    --acc-observation: #2ED3C6;--acc-observation-c: #06302C;--acc-observation-on: #9CEDE5;
+    --acc-camera: #5DD18C;     --acc-camera-c: #0A2E1B;     --acc-camera-on: #AEEBC6;
+    --acc-performance: #B8C2D0;--acc-performance-c: #1C222D;--acc-performance-on: #E6EAF2;
+
+    /* default accent (overridden per-section via .section[data-accent]) */
+    --accent: var(--acc-accretion);
+    --accent-c: var(--acc-accretion-c);
+    --accent-on: var(--acc-accretion-on);
+
+    /* ---- Semantic status (reserved for alerts only) ---- */
+    --status-error: #FF6B6B;
+    --status-warn: #F5A623;
+    --status-ok: #5DD18C;
+    --status-info: #4FB0F5;
+
+    /* ---- Glass (HIG material over the render) ---- */
+    --glass-fill: rgba(17,21,28,0.62);
+    --glass-fill-thick: rgba(17,21,28,0.82);
+    --glass-border: rgba(255,255,255,0.10);
+    --glass-rim: rgba(255,255,255,0.16);
+    --glass-blur: blur(24px) saturate(180%);
+    --scrim: rgba(0,0,0,0.32);
+
+    /* ---- Typography ---- */
+    --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+                 system-ui, Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-num: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono",
+                "Segoe UI Mono", Menlo, Consolas, monospace;
+
+    /* type scale (size / line-height) */
+    --t-display: 36px;  --t-display-lh: 44px;
+    --t-headline: 22px; --t-headline-lh: 28px;
+    --t-title: 15px;    --t-title-lh: 22px;
+    --t-body: 13.5px;   --t-body-lh: 20px;
+    --t-label: 13px;    --t-label-lh: 18px;
+    --t-caption: 11.5px;--t-caption-lh: 16px;
+    --t-micro: 10.5px;  --t-micro-lh: 14px;
+
+    /* ---- Spacing grid (4 / 8) ---- */
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+    --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+
+    /* ---- Radii (M3 shape scale) ---- */
+    --radius-xs: 4px; --radius-sm: 8px; --radius-md: 12px;
+    --radius-lg: 16px; --radius-xl: 28px; --radius-full: 9999px;
+
+    /* ---- Elevation ---- */
+    --elev-1: 0 1px 3px rgba(0,0,0,0.4);
+    --elev-2: 0 2px 8px rgba(0,0,0,0.42);
+    --elev-3: 0 8px 32px rgba(0,0,0,0.45);
+    --elev-4: 0 12px 40px rgba(0,0,0,0.55);
+
+    /* ---- Motion ---- */
+    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --ease-decel: cubic-bezier(0, 0, 0, 1);
+    --ease-accel: cubic-bezier(0.3, 0, 1, 1);
+    --dur-1: 100ms; --dur-2: 150ms; --dur-3: 200ms;
+    --dur-4: 300ms; --dur-5: 400ms; --dur-6: 600ms;
+}
+
+/* Per-section accent binding: a .section carries data-accent="relativity" etc.,
+   and its children read the generic --accent token. */
+.section[data-accent="accretion"]   { --accent: var(--acc-accretion);   --accent-c: var(--acc-accretion-c);   --accent-on: var(--acc-accretion-on); }
+.section[data-accent="relativity"]  { --accent: var(--acc-relativity);  --accent-c: var(--acc-relativity-c);  --accent-on: var(--acc-relativity-on); }
+.section[data-accent="spacetime"]   { --accent: var(--acc-spacetime);   --accent-c: var(--acc-spacetime-c);   --accent-on: var(--acc-spacetime-on); }
+.section[data-accent="thermo"]      { --accent: var(--acc-thermo);      --accent-c: var(--acc-thermo-c);      --accent-on: var(--acc-thermo-on); }
+.section[data-accent="observation"] { --accent: var(--acc-observation); --accent-c: var(--acc-observation-c); --accent-on: var(--acc-observation-on); }
+.section[data-accent="camera"]      { --accent: var(--acc-camera);      --accent-c: var(--acc-camera-c);      --accent-on: var(--acc-camera-on); }
+.section[data-accent="performance"] { --accent: var(--acc-performance); --accent-c: var(--acc-performance-c); --accent-on: var(--acc-performance-on); }
+.section[data-accent="blackhole"]   { --accent: var(--acc-observation); --accent-c: var(--acc-observation-c); --accent-on: var(--acc-observation-on); }
+
+@media (prefers-reduced-motion: reduce) {
+    :root { --dur-1: 1ms; --dur-2: 1ms; --dur-3: 1ms; --dur-4: 1ms; --dur-5: 1ms; --dur-6: 1ms; }
+}

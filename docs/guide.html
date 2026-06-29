@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Black Hole Explorer — Guide</title>
+<style>
+  :root{
+    --bg:#0B0E14; --surface:#11151C; --card:#161B24; --card2:#1C222D;
+    --line:#2A3340; --text:#E6EAF2; --t2:#9AA4B2; --t3:#6B7585; --ink:#06080C;
+    --accretion:#F5A623; --relativity:#4FB0F5; --spacetime:#9A8CFF;
+    --thermo:#F25D8E; --observation:#2ED3C6; --camera:#5DD18C;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono","Roboto Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.65;
+    background-image:radial-gradient(1200px 600px at 80% -10%, rgba(154,140,255,0.10), transparent),
+                     radial-gradient(900px 500px at 0% 0%, rgba(245,166,35,0.08), transparent);}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 24px 96px}
+  header.hero{text-align:center;padding:48px 0 32px}
+  .hero .mark{font-size:48px;color:var(--accretion);filter:drop-shadow(0 0 24px rgba(245,166,35,0.5))}
+  h1{font-size:40px;font-weight:700;letter-spacing:-0.02em;margin:12px 0 8px;
+     background:linear-gradient(90deg,#fff,#9AA4B2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p{color:var(--t2);font-size:17px;max-width:620px;margin:0 auto}
+  .pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+  .pill{font-size:12px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);color:var(--t2);background:rgba(255,255,255,0.03)}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:0.15em;color:var(--t3);margin:48px 0 16px;font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:12px 0}
+  .card h3{font-size:18px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+  .card h3 .dot{width:9px;height:9px;border-radius:50%}
+  .card p{color:var(--t2);margin:6px 0}
+  .eq{font-family:var(--mono);font-size:13px;color:var(--text);background:#0E1219;border-radius:8px;padding:8px 12px;margin-top:8px;display:block;border:1px solid var(--line)}
+  .nums{font-family:var(--mono);font-size:12px;color:var(--t2);margin-top:6px;display:block}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+  .mini{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;border-left:3px solid var(--line)}
+  .mini h4{font-size:14px;margin-bottom:4px}
+  .mini p{font-size:13px;color:var(--t2)}
+  .steps{counter-reset:s;list-style:none}
+  .steps li{position:relative;padding:10px 0 10px 44px;border-bottom:1px solid var(--line);color:var(--t2)}
+  .steps li:last-child{border-bottom:none}
+  .steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:8px;width:28px;height:28px;
+    border-radius:8px;background:var(--accretion);color:var(--ink);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:13px}
+  .steps li b{color:var(--text)}
+  table{width:100%;border-collapse:collapse;margin:8px 0}
+  td,th{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-size:14px}
+  th{color:var(--t3);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:0.08em}
+  td:first-child{font-family:var(--mono);color:var(--accretion);white-space:nowrap}
+  kbd{background:#0E1219;border:1px solid var(--line);border-radius:5px;padding:2px 7px;font-family:var(--mono);font-size:12px}
+  a{color:var(--observation);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .foot{color:var(--t3);font-size:13px;text-align:center;margin-top:48px;border-top:1px solid var(--line);padding-top:24px}
+  .acc-accretion{color:var(--accretion)} .acc-relativity{color:var(--relativity)}
+  .acc-spacetime{color:var(--spacetime)} .acc-thermo{color:var(--thermo)}
+  .acc-observation{color:var(--observation)} .acc-camera{color:var(--camera)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="mark">◉</div>
+    <h1>Black Hole Explorer</h1>
+    <p>A scientifically accurate, real-time relativistic black-hole simulator — ray-traced curved spacetime, a relativistic accretion disk, live physics in real units, and the science of what we actually know.</p>
+    <div class="pills">
+      <span class="pill">WebGL2 · zero dependencies</span>
+      <span class="pill">Grounded in EHT &amp; GR</span>
+      <span class="pill">GPU-adaptive</span>
+      <span class="pill">Material 3 × Apple HIG</span>
+    </div>
+  </header>
+
+  <h2>Launch &amp; stop</h2>
+  <div class="card">
+    <ol class="steps">
+      <li><b>Easiest:</b> double-click <code>index.html</code> — it opens in your browser. To close, just close the tab.</li>
+      <li><b>Recommended:</b> double-click <code>start.bat</code> — a tiny local server opens it at <code>http://localhost:8765</code>. To stop: close the tab, then press <kbd>Ctrl</kbd>+<kbd>C</kbd> in the little black server window.</li>
+      <li><b>Any OS:</b> run <code>python serve.py</code> in the folder, then open <code>http://localhost:8765</code>.</li>
+    </ol>
+    <p style="margin-top:14px">Needs a browser with WebGL2 (Chrome, Edge, Firefox, Safari 15+). On a gaming laptop, see <a href="USE_NVIDIA_GPU.md">USE_NVIDIA_GPU.md</a> to put it on your dedicated GPU.</p>
+  </div>
+
+  <h2>Controls</h2>
+  <div class="card">
+    <table>
+      <tr><th>Input</th><th>Action</th></tr>
+      <tr><td>drag</td><td>Orbit the black hole (full 360°)</td></tr>
+      <tr><td>scroll</td><td>Zoom in / out</td></tr>
+      <tr><td>click / T</td><td>Throw a probe of matter into the hole</td></tr>
+      <tr><td>C</td><td>Cinematic mode (hide UI) · <kbd>Esc</kbd> to exit</td></tr>
+      <tr><td>L</td><td>Open the Learn drawer</td></tr>
+      <tr><td>R</td><td>Reset the view</td></tr>
+      <tr><td>Space</td><td>Toggle auto-rotation</td></tr>
+      <tr><td>P</td><td>Save a screenshot</td></tr>
+    </table>
+  </div>
+
+  <h2>What you can do</h2>
+  <div class="grid">
+    <div class="mini" style="border-left-color:var(--observation)"><h4 class="acc-observation">Set a real black hole</h4><p>Dial in mass, spin, inclination, accretion rate &amp; distance — or load Sgr A*, M87*, Cygnus X-1, GW150914, TON 618, Gargantua.</p></div>
+    <div class="mini" style="border-left-color:var(--observation)"><h4 class="acc-observation">Live readouts</h4><p>Schwarzschild radius, ISCO, photon sphere, ergosphere, shadow size (µas), orbital speed &amp; radiative efficiency — all computed live.</p></div>
+    <div class="mini" style="border-left-color:var(--spacetime)"><h4 class="acc-spacetime">Geometry overlays</h4><p>Draw the lensed horizon, photon sphere, ISCO &amp; ergosphere rings to see the structure spin reshapes.</p></div>
+    <div class="mini" style="border-left-color:var(--spacetime)"><h4 class="acc-spacetime">Photon-path tracer</h4><p>Trace a fan of light rays through curved spacetime — colour-coded <span style="color:#ff5e5e">captured</span> / <span style="color:#a99cff">orbiting</span> / <span style="color:#2ED3C6">escaping</span> — to <em>see</em> why the shadow exists.</p></div>
+    <div class="mini" style="border-left-color:var(--thermo)"><h4 class="acc-thermo">Thermodynamics</h4><p>Hawking temperature, Bekenstein-Hawking entropy, evaporation lifetime &amp; Hawking power — see why small holes are hotter.</p></div>
+    <div class="mini" style="border-left-color:var(--relativity)"><h4 class="acc-relativity">Toggle each effect</h4><p>Lensing, Doppler beaming, colour shift &amp; gravitational redshift — turn them off for a flat-space before/after.</p></div>
+    <div class="mini" style="border-left-color:var(--accretion)"><h4 class="acc-accretion">Throw matter in</h4><p>Hurl probes and watch them spaghettify, redshift &amp; freeze at the horizon — what a distant observer really sees.</p></div>
+  </div>
+
+  <h2>The science — what's happening &amp; what we know</h2>
+
+  <div class="card"><h3><span class="dot" style="background:var(--spacetime)"></span>Event horizon &amp; shadow</h3>
+    <p>The horizon is the point of no return — a one-way surface where escape velocity equals light speed. It's invisible; what we see is the larger dark <em>shadow</em>, ~2.6× wider, cast on surrounding light.</p>
+    <span class="eq">rₛ = 2GM/c²  ·  shadow = 6√3·GM/c² ≈ 5.2 rₛ</span>
+    <span class="nums">rₛ = 2.95 km × (M/M☉)</span></div>
+
+  <div class="card"><h3><span class="dot" style="background:var(--spacetime)"></span>Photon sphere &amp; photon ring</h3>
+    <p>At 1.5 rₛ light can orbit. Photons that loop before escaping form the razor-thin photon ring — a stack of self-similar sub-rings, each ≈ e<sup>−π</sup> ≈ 1/23 fainter. A near-pure prediction of general relativity.</p>
+    <p>Turn on <b>Photon paths</b> (Geometry &amp; overlays) to watch it directly: rays with impact parameter <b>b &lt; b_c ≈ 2.6 rₛ</b> are <span style="color:#ff5e5e">captured</span>, rays near b_c <span style="color:#a99cff">orbit</span> the photon sphere, and rays with <b>b &gt; b_c</b> <span style="color:#2ED3C6">escape</span> with a deflection. That critical impact parameter is exactly what sets the edge of the shadow.</p>
+    <span class="eq">r_ph = 3GM/c² = 1.5 rₛ  ·  b_c = 3√3·GM/c² ≈ 2.6 rₛ</span></div>
+
+  <div class="card"><h3><span class="dot" style="background:var(--accretion)"></span>The accretion disk</h3>
+    <p>Infalling gas forms a hot disk, glowing as a multi-temperature blackbody — bluest at the inner edge (the ISCO), redder outward (T ∝ r<sup>−3/4</sup>). Peak T ∝ M<sup>−1/4</sup>: stellar holes blaze in X-rays, giants in UV/optical.</p>
+    <span class="eq">T(r) = [3GMṀ/(8πσr³)·(1−√(r_in/r))]^¼</span></div>
+
+  <div class="card"><h3><span class="dot" style="background:var(--relativity)"></span>Doppler beaming &amp; redshift</h3>
+    <p>The inner disk orbits at ~0.5c, so the approaching side is boosted brighter &amp; bluer, the receding side dimmed &amp; reddened — a lopsided bright crescent. Light climbing out is gravitationally redshifted too.</p>
+    <span class="eq">δ = 1/[γ(1−β·cosθ)]  ·  I_obs ∝ δ³</span></div>
+
+  <div class="card"><h3><span class="dot" style="background:var(--spacetime)"></span>Spin, Kerr &amp; the ergosphere</h3>
+    <p>Real holes rotate (a* = 0–1). Spin shrinks the horizon, splits it in two, and turns the singularity into a ring. Outside lies the ergosphere, where spacetime is dragged so hard nothing can stand still — frame dragging.</p>
+    <span class="eq">r₊ = M(1+√(1−a*²))  ·  r_E(θ) = M(1+√(1−a*²cos²θ))</span>
+    <span class="nums">ISCO: 6GM/c² (a=0) → 1GM/c² (extremal prograde)</span></div>
+
+  <div class="card"><h3><span class="dot" style="background:var(--relativity)"></span>Time dilation &amp; spaghettification</h3>
+    <p>Clocks slow deeper in the well; at the horizon they appear (to us) to freeze, so infalling matter never seems to cross. Tidal forces stretch you into a strand — and smaller holes are deadlier, since the gradient scales as 1/M².</p>
+    <span class="eq">dτ/dt = √(1−rₛ/r)  ·  tidal Δa = 2GML/r³</span></div>
+
+  <div class="card"><h3><span class="dot" style="background:var(--thermo)"></span>Hawking radiation, entropy &amp; the singularity</h3>
+    <p>Quantum effects make holes glow faintly — hotter when smaller — and slowly evaporate (lifetime ∝ M³). Their entropy scales with horizon <em>area</em>, seeding the holographic principle. Inside lies a singularity, and the unsolved information paradox.</p>
+    <span class="eq">T_H = ħc³/(8πGMk_B)  ·  S = k_B A c³/(4Għ)</span>
+    <span class="nums">T_H = 6.17×10⁻⁸ K ×(M☉/M)  ·  lifetime ≈ 2.1×10⁶⁷ yr ×(M/M☉)³</span></div>
+
+  <div class="card"><h3><span class="dot" style="background:var(--observation)"></span>How we image them (EHT)</h3>
+    <p>The Event Horizon Telescope made an Earth-sized virtual telescope (VLBI at 1.3 mm) to resolve the ring: M87* (2019) and Sgr A* (2022). Despite a ~1500× mass difference they look nearly the same size from Earth — mass and distance almost cancel.</p>
+    <span class="eq">θ_g[µas] = 0.0322 × (M/M☉)/(D/ly)</span>
+    <span class="nums">M87* ring 42±3 µas · Sgr A* ring 51.8±2.3 µas</span></div>
+
+  <h2>Performance</h2>
+  <div class="card">
+    <p>The renderer detects your GPU and shows a tier badge. <b>Auto</b> quality continuously scales render resolution &amp; ray-march steps to hold a target frame-rate; it pauses when the tab is hidden and caps the frame-rate to stay cool. On a strong GPU pick <b>Ultra</b> (1.35× supersampling); on a weak one pick <b>Battery</b>.</p>
+    <p style="margin-top:10px">On hybrid-graphics laptops the browser is often forced onto the integrated GPU — a banner offers one-click guidance, detailed in <a href="USE_NVIDIA_GPU.md">USE_NVIDIA_GPU.md</a>.</p>
+  </div>
+
+  <h2>Sources &amp; honesty</h2>
+  <div class="card">
+    <p>Built on standard general relativity &amp; astrophysics: <b>Schwarzschild</b> &amp; <b>Kerr</b> metrics, <b>Bardeen–Press–Teukolsky</b> (1972) ISCO, <b>Shakura–Sunyaev</b> (1973) / <b>Novikov–Thorne</b> disks, <b>Hawking</b> (1975), <b>Luminet</b> (1979), <b>James–Thorne</b> (2015, the <em>Interstellar</em> renderer), and <b>EHT</b> (2019/2022). Full derivations &amp; citations are in <a href="PHYSICS.md">PHYSICS.md</a>.</p>
+    <p style="margin-top:10px;color:var(--t3)"><b>Honest limitations:</b> photon paths use the Schwarzschild metric (spin drives the disk's inner edge, ergosphere &amp; readouts, but not full Kerr photon frame-dragging — so the shadow stays circular); the disk is a thin optically-thick model with bolometric-ish (δ³) beaming; disk colour is artistic while the physical peak temperature is shown separately in the readouts.</p>
+  </div>
+
+  <div class="foot">◉ Black Hole Explorer · open <code>index.html</code> to begin · see <a href="../README.md">README</a> &amp; <a href="../HOW_TO_RUN.md">HOW_TO_RUN</a></div>
+</div>
+</body>
+</html>

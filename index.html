@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Hole — Relativistic 3D Simulation & Explorer</title>
+    <meta name="description" content="A scientifically accurate, interactive black hole simulator: real units, Kerr geometry, accretion physics, gravitational lensing, and live readouts grounded in EHT data.">
+    <link rel="stylesheet" href="css/tokens.css?v=6">
+    <link rel="stylesheet" href="css/style.css?v=6">
+</head>
+<body>
+    <canvas id="scene"></canvas>
+
+    <!-- ============================== App bar ============================== -->
+    <header id="appbar">
+        <div class="brand">
+            <span class="mark">◉</span>
+            <h1>Black Hole Explorer</h1>
+            <span class="sub">relativistic ray-traced simulation</span>
+        </div>
+        <div class="spacer"></div>
+        <div class="actions">
+            <button class="iconbtn" id="btn-help" title="Help &amp; welcome (?)">?</button>
+            <button class="iconbtn" id="btn-learn" title="Learn (what's happening &amp; what we know)">📖</button>
+            <button class="iconbtn" id="btn-throw" title="Throw matter in (T / click the scene)">🪐</button>
+            <button class="iconbtn" id="btn-cine" title="Cinematic mode (C)">🎬</button>
+            <button class="iconbtn" id="btn-shot" title="Screenshot (P)">⌖</button>
+            <button class="iconbtn" id="btn-panel" title="Toggle panel (H)">☰</button>
+        </div>
+    </header>
+
+    <!-- integrated-GPU warning -->
+    <div id="gpu-warn">
+        <span>⚠ Rendering on your <b id="gpu-warn-name">integrated GPU</b> — not your dedicated card.</span>
+        <button id="gpu-fix">Use my NVIDIA GPU →</button>
+        <button id="gpu-dismiss" title="Dismiss">×</button>
+    </div>
+
+    <!-- ============================== Sidebar ============================= -->
+    <aside id="sidebar">
+        <div class="panel-head">
+            <h2>Controls</h2>
+            <div class="hint">Tune the physics, the view &amp; the science</div>
+        </div>
+        <div id="panel"><!-- accordion sections built by ui.js --></div>
+    </aside>
+
+    <!-- ============================== Status bar ========================== -->
+    <footer id="statusbar">
+        <span class="sb-metric" id="sb-metric">—</span>
+        <span class="sb-spacer"></span>
+        <span class="kbd"><kbd>drag</kbd> orbit · <kbd>scroll</kbd> zoom · <kbd>click</kbd> throw · <kbd>C</kbd> cinematic · <kbd>R</kbd> reset</span>
+        <span class="sb-fps" id="sb-fps"></span>
+        <span class="sb-status"><span class="sb-dot" id="sb-dot"></span><span id="sb-state">ready</span></span>
+    </footer>
+
+    <!-- ============================== Learn drawer ======================== -->
+    <div id="drawerScrim"></div>
+    <aside id="drawer" aria-hidden="true">
+        <div class="drawer-head">
+            <h2>Learn</h2>
+            <button class="iconbtn" id="drawer-close" title="Close">×</button>
+        </div>
+        <div class="drawer-body" id="drawer-body"><!-- learn cards built by ui.js --></div>
+    </aside>
+
+    <!-- floating popover for info "i" buttons -->
+    <div id="popover" role="tooltip"></div>
+
+    <!-- cinematic hint -->
+    <div id="cine-hint">Cinematic mode — <kbd>C</kbd> or <kbd>Esc</kbd> to exit · drag to look around</div>
+
+    <!-- GPU help modal -->
+    <div id="gpu-modal">
+        <div class="modal-card">
+            <button id="gpu-modal-close" title="Close">×</button>
+            <h2>Switch this simulation to your dedicated GPU</h2>
+            <p>Your browser is rendering on the integrated Intel GPU. Laptops with
+               hybrid graphics (Intel + NVIDIA) often force the browser onto the
+               weaker chip. To use your <b>RTX 4060</b>:</p>
+            <ol>
+                <li><b>Plug in</b> &amp; set Windows power mode to <i>Best performance</i>.</li>
+                <li><b>Settings → System → Display → Graphics</b> → add your browser → <i>Options</i> → <b>High performance</b> → Save.</li>
+                <li><b>NVIDIA Control Panel → Manage 3D settings → Program Settings</b> → your browser → <b>High-performance NVIDIA processor</b>.</li>
+                <li><b>Fully quit &amp; reopen</b> the browser, reload. Verify at <code>chrome://gpu</code> — it should say NVIDIA.</li>
+            </ol>
+            <p class="modal-foot">Full guide: <code>docs/USE_NVIDIA_GPU.md</code>. The performance badge turns green once a dedicated GPU is detected.</p>
+        </div>
+    </div>
+
+    <!-- Welcome / onboarding overlay -->
+    <div id="welcome">
+        <div class="welcome-card">
+            <button id="welcome-close" title="Close">×</button>
+            <div class="w-hero"><span class="w-mark">◉</span>
+                <h2>Welcome to Black Hole Explorer</h2>
+                <p>A real-time, scientifically accurate black-hole simulator. Light is traced through
+                   curved spacetime — what you see is genuine gravitational lensing.</p>
+            </div>
+            <div class="w-cols">
+                <div class="w-box">
+                    <h3>Get around</h3>
+                    <ul>
+                        <li><b>Drag</b> to orbit · <b>scroll</b> to zoom</li>
+                        <li><b>Click</b> the scene (or <kbd>T</kbd>) to throw matter in</li>
+                        <li><kbd>C</kbd> cinematic · <kbd>R</kbd> reset · <kbd>H</kbd> panel</li>
+                    </ul>
+                </div>
+                <div class="w-box">
+                    <h3>Try this first</h3>
+                    <ul>
+                        <li>Pick a real hole in <b>Black hole → preset</b> (Sgr A*, M87*…)</li>
+                        <li>Watch the <b>Live readouts</b> update in real units</li>
+                        <li>Open <b>Geometry → Photon paths</b> to see light bend</li>
+                        <li>Tap <b>📖 Learn</b> for the science, or any <b>ⓘ</b></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="w-gpu">On a gaming laptop? If the badge says <i>Integrated GPU</i>, switch the
+               browser to your dedicated card for full quality (see the banner / <code>docs/USE_NVIDIA_GPU.md</code>).</p>
+            <button id="welcome-start" class="w-start">Start exploring →</button>
+        </div>
+    </div>
+
+    <!-- WebGL2 not supported -->
+    <div id="nowebgl"><div><h2>WebGL2 is required</h2>
+        <p>This simulation needs a browser with WebGL2 (Chrome, Edge, Firefox, Safari 15+) and hardware acceleration enabled.</p></div></div>
+
+    <!-- ============================== Scripts ============================= -->
+    <script src="shaders/quad.vert.js?v=6"></script>
+    <script src="shaders/blackhole.frag.js?v=6"></script>
+    <script src="shaders/post.frag.js?v=6"></script>
+    <script src="js/physics.js?v=6"></script>
+    <script src="js/content.js?v=6"></script>
+    <script src="js/glutils.js?v=6"></script>
+    <script src="js/camera.js?v=6"></script>
+    <script src="js/objects.js?v=6"></script>
+    <script src="js/photons.js?v=6"></script>
+    <script src="js/ui.js?v=6"></script>
+    <script src="js/main.js?v=6"></script>
+</body>
+</html>

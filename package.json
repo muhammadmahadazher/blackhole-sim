@@ -1,0 +1,29 @@
+{
+  "name": "blackhole-sim",
+  "version": "1.0.0",
+  "description": "Black Hole Explorer — a real-time, scientifically accurate relativistic black-hole simulator in WebGL2 (gravitational lensing, Kerr geometry, accretion disk, live physics readouts).",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node serve.js",
+    "serve": "node serve.js"
+  },
+  "keywords": [
+    "black-hole", "webgl", "webgl2", "general-relativity", "simulation",
+    "astrophysics", "kerr", "schwarzschild", "gravitational-lensing",
+    "accretion-disk", "event-horizon", "visualization", "physics", "science"
+  ],
+  "author": "Muhammad Mahad Azher",
+  "license": "MIT",
+  "homepage": "https://muhammadmahadazher.github.io/blackhole-sim/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muhammadmahadazher/blackhole-sim.git"
+  },
+  "bugs": {
+    "url": "https://github.com/muhammadmahadazher/blackhole-sim/issues"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {}
+}

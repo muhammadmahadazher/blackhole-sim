@@ -1,0 +1,17 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/
+
+# logs / temp
+*.log
+npm-debug.log*
+node_modules/
+.cache/
+tmp/
+
+# user-generated screenshots from the in-app capture (keep the folder, ignore PNGs you drop in if you prefer)
+# /assets/screenshots/*.png
